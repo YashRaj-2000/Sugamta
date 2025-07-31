@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sugamta App - by Yash Raj</title>
+    <title>Sugamta App</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
@@ -93,66 +93,91 @@
             background-color: #f9fafb; /* gray-50 */
             border-width: 1px;
         }
+        /* Text Truncation & Expansion */
+        .task-text-truncated {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .task-text-expanded {
+            -webkit-line-clamp: unset;
+        }
+        /* Dropdown Styling */
+        select {
+            font-weight: 500;
+        }
+        select:focus {
+             font-weight: 500;
+        }
+        option {
+            font-weight: 400;
+        }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
-    <div id="app-container" class="max-w-7xl mx-auto">
+    <div id="app-container" class="max-w-7xl mx-auto relative">
         <header class="mb-8 text-center">
             <h1 class="app-title text-5xl font-bold text-gray-800">Sugamta App</h1>
-            <p class="text-gray-500 mt-2">सुगमता app by Yash Raj</p>
+            <p class="text-gray-500 mt-2">सुगमता app Dream town studios</p>
             <p class="text-gray-500 mt-2 text-sm italic">
                 "सुगमता: कार्यसिद्धये सरलता"<br>
                 Sugamta: Simplicity for task fulfillment
             </p>
-            <div class="mt-4">
-                <button id="openTrashBtn" class="inline-flex items-center gap-2 bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg>
-                    Trash
-                </button>
-            </div>
         </header>
 
+        <div class="absolute top-0 right-0">
+             <button id="openTrashBtn" class="inline-flex items-center gap-2 bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg>
+                Trash
+            </button>
+        </div>
+
         <!-- New Task Form -->
-        <div class="bg-white p-6 rounded-xl shadow-lg mb-10 max-w-4xl mx-auto">
+        <div class="bg-white p-6 rounded-xl shadow-lg my-10 max-w-4xl mx-auto">
             <h2 class="text-2xl font-semibold text-gray-700 mb-4">Add a New Task</h2>
             <form id="newTaskForm" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
                 <div class="md:col-span-2">
                     <label for="taskText" class="block text-sm font-medium text-gray-600 mb-1">Task Description</label>
-                    <textarea id="taskText" rows="3" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required></textarea>
+                    <textarea id="taskText" rows="3" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2" required></textarea>
                 </div>
                 <div>
                     <label for="assignedBy" class="block text-sm font-medium text-gray-600 mb-1">Assigned By</label>
-                    <select id="assignedBy" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <select id="assignedBy" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2">
                         <option>Yash Raj</option>
                         <option>JP Singla</option>
-                        <option>Other</option>
+                        <option value="Other">Other</option>
                     </select>
+                    <input type="text" id="otherAssignedBy" placeholder="Please specify" class="hidden mt-2 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2">
                 </div>
                 <div>
                     <label for="taskType" class="block text-sm font-medium text-gray-600 mb-1">Task Type</label>
-                    <select id="taskType" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <select id="taskType" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2">
                         <option>General Task</option>
                         <option>Write Email</option>
                         <option>Email Reply</option>
                         <option>Magazine</option>
                         <option>WhatsApp Message</option>
                         <option>Letter</option>
+                        <option value="Other">Other</option>
                     </select>
+                    <input type="text" id="otherTaskType" placeholder="Please specify" class="hidden mt-2 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2">
                 </div>
                  <div>
                     <label for="taskCategory" class="block text-sm font-medium text-gray-600 mb-1">Category</label>
-                    <select id="taskCategory" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <select id="taskCategory" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2">
                         <option value="todo">To Do</option>
                         <option value="reminder">Reminder</option>
                     </select>
                 </div>
                 <div>
                     <label for="taskLink" class="block text-sm font-medium text-gray-600 mb-1">Link (optional)</label>
-                    <input type="url" id="taskLink" placeholder="https://example.com" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <input type="url" id="taskLink" placeholder="https://example.com" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2">
                 </div>
                 <div class="md:col-span-2 mt-2">
-                    <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition">
+                    <button type="submit" id="addTaskBtn" class="w-full bg-indigo-600 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition">
                         Add Task to List
                     </button>
                 </div>
@@ -183,37 +208,40 @@
                     <div class="space-y-4">
                         <div>
                             <label for="editTaskText" class="block text-sm font-medium text-gray-600 mb-1">Task Description</label>
-                            <textarea id="editTaskText" rows="3" class="block w-full rounded-lg border-gray-300 shadow-sm" required></textarea>
+                            <textarea id="editTaskText" rows="3" class="block w-full rounded-lg border-gray-300 shadow-sm px-3 py-2" required></textarea>
                         </div>
                         <div>
                             <label for="editAssignedBy" class="block text-sm font-medium text-gray-600 mb-1">Assigned By</label>
-                            <select id="editAssignedBy" class="block w-full rounded-lg border-gray-300 shadow-sm">
+                            <select id="editAssignedBy" class="block w-full rounded-lg border-gray-300 shadow-sm px-3 py-2">
                                 <option>Yash Raj</option>
                                 <option>JP Singla</option>
-                                <option>Other</option>
+                                <option value="Other">Other</option>
                             </select>
+                             <input type="text" id="editOtherAssignedBy" placeholder="Please specify" class="hidden mt-2 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2">
                         </div>
                         <div>
                             <label for="editTaskType" class="block text-sm font-medium text-gray-600 mb-1">Task Type</label>
-                            <select id="editTaskType" class="block w-full rounded-lg border-gray-300 shadow-sm">
+                            <select id="editTaskType" class="block w-full rounded-lg border-gray-300 shadow-sm px-3 py-2">
                                <option>General Task</option>
                                <option>Write Email</option>
                                <option>Email Reply</option>
                                <option>Magazine</option>
                                <option>WhatsApp Message</option>
                                <option>Letter</option>
+                               <option value="Other">Other</option>
                             </select>
+                            <input type="text" id="editOtherTaskType" placeholder="Please specify" class="hidden mt-2 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2">
                         </div>
                         <div>
                             <label for="editTaskCategory" class="block text-sm font-medium text-gray-600 mb-1">Category</label>
-                            <select id="editTaskCategory" class="block w-full rounded-lg border-gray-300 shadow-sm">
+                            <select id="editTaskCategory" class="block w-full rounded-lg border-gray-300 shadow-sm px-3 py-2">
                                 <option value="todo">To Do</option>
                                 <option value="reminder">Reminder</option>
                             </select>
                         </div>
                         <div>
                             <label for="editTaskLink" class="block text-sm font-medium text-gray-600 mb-1">Link</label>
-                            <input type="url" id="editTaskLink" class="block w-full rounded-lg border-gray-300 shadow-sm">
+                            <input type="url" id="editTaskLink" class="block w-full rounded-lg border-gray-300 shadow-sm px-3 py-2">
                         </div>
                     </div>
                     <div class="mt-8 flex justify-end space-x-3">
@@ -246,7 +274,7 @@
             </div>
         </div>
         <!-- Delete Confirmation Modal -->
-        <div id="deleteConfirmationModal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-backdrop bg-gray-900 bg-opacity-50 opacity-0">
+        <div id="deleteConfirmationModal" class="fixed inset-0 z-[60] flex items-center justify-center hidden modal-backdrop bg-gray-900 bg-opacity-50 opacity-0">
             <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm mx-4 text-center">
                 <h3 id="deleteModalTitle" class="text-xl font-semibold mb-2">Are you sure?</h3>
                 <p id="deleteModalText" class="text-gray-600 mb-6">This will move the task to the trash.</p>
@@ -276,168 +304,261 @@
         <button id="toast-undo-btn" class="font-bold text-indigo-400 hover:text-indigo-300">Undo</button>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- DOM Elements ---
-            const newTaskForm = document.getElementById('newTaskForm');
-            const todoTasksContainer = document.getElementById('todo-tasks');
-            const reminderTasksContainer = document.getElementById('reminder-tasks');
-            const taskBoard = document.getElementById('task-board');
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toast-message');
-            const toastUndoBtn = document.getElementById('toast-undo-btn');
-            const editModal = document.getElementById('editModal');
-            const editTaskForm = document.getElementById('editTaskForm');
-            const cancelEditBtn = document.getElementById('cancelEditBtn');
-            const completionModal = document.getElementById('completionModal');
-            const cancelCompletionBtn = document.getElementById('cancelCompletionBtn');
-            const cancellationModal = document.getElementById('cancellationModal');
-            const cancelCancellationBtn = document.getElementById('cancelCancellationBtn');
-            const deleteConfirmationModal = document.getElementById('deleteConfirmationModal');
-            const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
-            const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
-            const deleteModalTitle = document.getElementById('deleteModalTitle');
-            const deleteModalText = document.getElementById('deleteModalText');
-            const openTrashBtn = document.getElementById('openTrashBtn');
-            const trashModal = document.getElementById('trashModal');
-            const closeTrashBtn = document.getElementById('closeTrashBtn');
-            const trashList = document.getElementById('trashList');
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, query, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-            // --- App State ---
-            let tasks = [];
-            let toastTimeout;
-            let taskToCompleteId = null;
-            let taskToCancelId = null;
-            let taskToDeleteId = null;
+        // --- App Configuration ---
+        const firebaseConfigString = typeof __firebase_config !== 'undefined' ? __firebase_config : '{}';
+        const firebaseConfig = JSON.parse(firebaseConfigString);
+        
+        // --- DOM Elements ---
+        const newTaskForm = document.getElementById('newTaskForm');
+        const addTaskBtn = document.getElementById('addTaskBtn');
+        const todoTasksContainer = document.getElementById('todo-tasks');
+        const reminderTasksContainer = document.getElementById('reminder-tasks');
+        const taskBoard = document.getElementById('task-board');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        const toastUndoBtn = document.getElementById('toast-undo-btn');
+        const editModal = document.getElementById('editModal');
+        const editTaskForm = document.getElementById('editTaskForm');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+        const completionModal = document.getElementById('completionModal');
+        const cancelCompletionBtn = document.getElementById('cancelCompletionBtn');
+        const cancellationModal = document.getElementById('cancellationModal');
+        const cancelCancellationBtn = document.getElementById('cancelCancellationBtn');
+        const deleteConfirmationModal = document.getElementById('deleteConfirmationModal');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+        const deleteModalTitle = document.getElementById('deleteModalTitle');
+        const deleteModalText = document.getElementById('deleteModalText');
+        const openTrashBtn = document.getElementById('openTrashBtn');
+        const trashModal = document.getElementById('trashModal');
+        const closeTrashBtn = document.getElementById('closeTrashBtn');
+        const trashList = document.getElementById('trashList');
 
-            // --- Local Data Logic ---
-            function handleAddTask(e) {
-                e.preventDefault();
-                const form = e.target;
-                
-                const newTask = {
-                    id: crypto.randomUUID(), // Generate a unique ID
-                    text: form.taskText.value,
-                    assignedBy: form.assignedBy.value,
-                    category: form.taskCategory.value,
-                    taskType: form.taskType.value,
-                    link: form.taskLink.value,
-                    status: 'active',
-                    createdAt: new Date().toISOString(),
-                    completedAt: null,
-                    completedBy: null,
-                    cancelledAt: null,
-                    cancelledBy: null,
-                };
+        // --- App State ---
+        let db, auth;
+        let tasksCollectionRef;
+        let tasks = [];
+        let toastTimeout;
+        let taskToCompleteId = null;
+        let taskToCancelId = null;
+        let taskToDeleteId = null;
+        let userId = null;
 
-                tasks.push(newTask);
-                renderTasks();
-                form.reset();
-                showToast("Task created!", () => handleDeleteTask(newTask.id, false));
-            }
-
-            function confirmCompletion(completerName) {
-                if (!taskToCompleteId) return;
-                const task = tasks.find(t => t.id === taskToCompleteId);
-                if (task) {
-                    task.status = 'completed';
-                    task.completedAt = new Date().toISOString();
-                    task.completedBy = completerName;
-                    renderTasks();
-                    closeCompletionModal();
-                    triggerConfetti();
+        // --- Firebase Initialization ---
+        async function initializeFirebase() {
+            try {
+                if (!firebaseConfig.apiKey) {
+                    throw new Error("Firebase configuration is missing or invalid.");
                 }
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'sugamta-app-default';
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                setLogLevel('debug');
+
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        console.log("User is signed in:", user.uid);
+                        userId = user.uid;
+                        tasksCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/tasks`);
+                        listenForTasks();
+                    } else {
+                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                            signInWithCustomToken(auth, __initial_auth_token).catch(error => {
+                                console.error("Custom token sign-in failed, trying anonymous.", error);
+                                signInAnonymously(auth).catch(err => console.error("Anonymous sign-in also failed:", err));
+                            });
+                        } else {
+                             signInAnonymously(auth).catch((error) => {
+                                console.error("Anonymous sign-in failed:", error);
+                                taskBoard.innerHTML = `<p class="text-center text-red-500 md:col-span-2">Authentication failed. Please check your Firebase project settings.</p>`;
+                            });
+                        }
+                    }
+                });
+
+            } catch (error) {
+                console.error("Firebase initialization failed:", error);
+                taskBoard.innerHTML = `<p class="text-center text-red-500 md:col-span-2">Error connecting to service. Please check your Firebase configuration.</p>`;
+            }
+        }
+
+        // --- Firestore & Storage Logic ---
+        function listenForTasks() {
+            if (!tasksCollectionRef) return;
+            const q = query(tasksCollectionRef);
+            onSnapshot(q, snapshot => {
+                tasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderTasks();
+            }, console.error);
+        }
+
+        async function handleAddTask(e) {
+            e.preventDefault();
+            if (!tasksCollectionRef) {
+                showToast("Database not ready. Please wait.", null);
+                return;
             }
             
-            function confirmCancellation(cancellerName) {
-                if (!taskToCancelId) return;
-                const task = tasks.find(t => t.id === taskToCancelId);
-                if (task) {
-                    task.status = 'cancelled';
-                    task.cancelledAt = new Date().toISOString();
-                    task.cancelledBy = cancellerName;
-                    renderTasks();
-                    closeCancellationModal();
-                }
-            }
+            addTaskBtn.disabled = true;
+            addTaskBtn.textContent = 'Saving...';
 
-            function handleUndoState(taskId) {
-                const task = tasks.find(t => t.id === taskId);
-                if (task) {
-                    task.status = 'active';
-                    task.completedAt = null;
-                    task.completedBy = null;
-                    task.cancelledAt = null;
-                    task.cancelledBy = null;
-                    renderTasks();
-                }
-            }
+            // More robustly get form values by ID
+            const text = document.getElementById('taskText').value;
+            const assignedBySelect = document.getElementById('assignedBy');
+            const otherAssignedByInput = document.getElementById('otherAssignedBy');
+            const taskTypeSelect = document.getElementById('taskType');
+            const otherTaskTypeInput = document.getElementById('otherTaskType');
+            const category = document.getElementById('taskCategory').value;
+            const link = document.getElementById('taskLink').value;
 
-            function moveToTrash(taskId) {
-                const task = tasks.find(t => t.id === taskId);
-                if (task) {
-                    task.status = 'deleted';
-                    renderTasks();
-                    showToast("Task moved to trash.");
-                }
-            }
+            const assignedByValue = assignedBySelect.value === 'Other' ? otherAssignedByInput.value : assignedBySelect.value;
+            const taskTypeValue = taskTypeSelect.value === 'Other' ? otherTaskTypeInput.value : taskTypeSelect.value;
 
-            function handleDeleteTask(taskId, showToastMsg = true) {
-                tasks = tasks.filter(t => t.id !== taskId);
-                renderTasks();
-                renderTrashTasks(); // Re-render trash if it's open
+            const newTask = {
+                text: text,
+                assignedBy: assignedByValue,
+                category: category,
+                taskType: taskTypeValue,
+                link: link,
+                status: 'active',
+                createdAt: new Date().toISOString(),
+                completedAt: null,
+                completedBy: null,
+                cancelledAt: null,
+                cancelledBy: null,
+            };
+
+            try {
+                const docRef = await addDoc(tasksCollectionRef, newTask);
+                newTaskForm.reset();
+                otherAssignedByInput.classList.add('hidden');
+                otherTaskTypeInput.classList.add('hidden');
+                showToast("Task created!", () => moveToTrash(docRef.id));
+            } catch (error) {
+                console.error("Error adding task:", error);
+                showToast("Error adding task.", null);
+            } finally {
+                addTaskBtn.disabled = false;
+                addTaskBtn.textContent = 'Add Task to List';
+            }
+        }
+
+        async function confirmCompletion(completerName) {
+            if (!taskToCompleteId) return;
+            const taskId = taskToCompleteId;
+            const taskRef = doc(db, tasksCollectionRef.path, taskId);
+            try {
+                await updateDoc(taskRef, { status: 'completed', completedAt: new Date().toISOString(), completedBy: completerName });
+                closeCompletionModal();
+                triggerConfetti();
+            } catch (error) {
+                console.error("Error updating task:", error);
+            }
+        }
+        
+        async function confirmCancellation(cancellerName) {
+            if (!taskToCancelId) return;
+            const taskId = taskToCancelId;
+            const taskRef = doc(db, tasksCollectionRef.path, taskId);
+            try {
+                await updateDoc(taskRef, { status: 'cancelled', cancelledAt: new Date().toISOString(), cancelledBy: cancellerName });
+                closeCancellationModal();
+            } catch (error) {
+                console.error("Error cancelling task:", error);
+            }
+        }
+
+        async function handleUndoState(taskId) {
+             const taskRef = doc(db, tasksCollectionRef.path, taskId);
+             await updateDoc(taskRef, { status: 'active', completedAt: null, completedBy: null, cancelledAt: null, cancelledBy: null });
+        }
+        
+        async function moveToTrash(taskId) {
+            const taskRef = doc(db, tasksCollectionRef.path, taskId);
+            try {
+                await updateDoc(taskRef, { status: 'deleted' });
+                showToast("Task moved to trash.");
+            } catch (error) {
+                console.error("Error moving task to trash:", error);
+            }
+        }
+
+        async function handleDeleteTask(taskId, showToastMsg = true) {
+            const taskRef = doc(db, tasksCollectionRef.path, taskId);
+            try {
+                await deleteDoc(taskRef);
                 if (showToastMsg) {
                     showToast("Task permanently deleted.");
                 }
+            } catch (error) {
+                console.error("Error deleting task:", error);
             }
-            
-            function handleUpdateTask(e) {
-                e.preventDefault();
-                const form = e.target;
-                const taskId = form.editTaskId.value;
-                const task = tasks.find(t => t.id === taskId);
+        }
+        
+        async function handleUpdateTask(e) {
+            e.preventDefault();
+            const taskId = document.getElementById('editTaskId').value;
 
-                if (task) {
-                    task.text = form.editTaskText.value;
-                    task.assignedBy = form.editAssignedBy.value;
-                    task.category = form.editTaskCategory.value;
-                    task.taskType = form.editTaskType.value;
-                    task.link = form.editTaskLink.value;
-                    renderTasks();
-                    closeEditModal();
-                }
+            const text = document.getElementById('editTaskText').value;
+            const assignedBySelect = document.getElementById('editAssignedBy');
+            const otherAssignedByInput = document.getElementById('editOtherAssignedBy');
+            const taskTypeSelect = document.getElementById('editTaskType');
+            const otherTaskTypeInput = document.getElementById('editOtherTaskType');
+            const category = document.getElementById('editTaskCategory').value;
+            const link = document.getElementById('editTaskLink').value;
+
+            const assignedByValue = assignedBySelect.value === 'Other' ? otherAssignedByInput.value : assignedBySelect.value;
+            const taskTypeValue = taskTypeSelect.value === 'Other' ? otherTaskTypeInput.value : taskTypeSelect.value;
+
+            const updatedData = {
+                text: text,
+                assignedBy: assignedByValue,
+                category: category,
+                taskType: taskTypeValue,
+                link: link,
+            };
+
+            const taskRef = doc(db, tasksCollectionRef.path, taskId);
+            try {
+                await updateDoc(taskRef, updatedData);
+                closeEditModal();
+            } catch (error) {
+                console.error("Error updating task:", error);
+            }
+        }
+
+        async function handleShareTask(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (!task) return;
+
+            const createdAt = new Date(task.createdAt).toLocaleString();
+            let shareText = `*Task from Sugamta App*\n\n*Task:* ${task.text}\n*Assigned by:* ${task.assignedBy}`;
+            if (task.taskType) shareText += `\n*Type:* ${task.taskType}`;
+            shareText += `\n*Created on:* ${createdAt}`;
+            if (task.link) shareText += `\n*Link:* ${task.link}`;
+
+            if (task.status === 'completed') {
+                const completedAt = new Date(task.completedAt).toLocaleString();
+                shareText += `\n\n*Status:* Completed by ${task.completedBy} on ${completedAt}`;
+            } else if (task.status === 'cancelled') {
+                const cancelledAt = new Date(task.cancelledAt).toLocaleString();
+                const byWhom = task.cancelledBy ? ` by ${task.cancelledBy}` : '';
+                shareText += `\n\n*Status:* Cancelled${byWhom} on ${cancelledAt}`;
             }
 
-            function handleShareTask(taskId) {
-                const task = tasks.find(t => t.id === taskId);
-                if (!task) return;
-
-                const createdAt = new Date(task.createdAt).toLocaleString();
-                let shareText = `*Task from Sugamta App*\n\n*Task:* ${task.text}\n*Assigned by:* ${task.assignedBy}`;
-                
-                if (task.taskType) {
-                    shareText += `\n*Type:* ${task.taskType}`;
-                }
-
-                shareText += `\n*Created on:* ${createdAt}`;
-
-                if (task.link) {
-                    shareText += `\n*Link:* ${task.link}`;
-                }
-
-                if (task.status === 'completed') {
-                    const completedAt = new Date(task.completedAt).toLocaleString();
-                    shareText += `\n\n*Status:* Completed by ${task.completedBy} on ${completedAt}`;
-                } else if (task.status === 'cancelled') {
-                    const cancelledAt = new Date(task.cancelledAt).toLocaleString();
-                    const byWhom = task.cancelledBy ? ` by ${task.cancelledBy}` : '';
-                    shareText += `\n\n*Status:* Cancelled${byWhom} on ${cancelledAt}`;
-                }
-
-                try {
+            try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    await navigator.clipboard.writeText(shareText);
+                } else {
                     const textArea = document.createElement("textarea");
                     textArea.value = shareText;
-                    textArea.style.position = "fixed"; 
+                    textArea.style.position = "fixed";  
                     textArea.style.top = "-9999px";
                     textArea.style.left = "-9999px";
                     document.body.appendChild(textArea);
@@ -445,370 +566,368 @@
                     textArea.select();
                     document.execCommand('copy');
                     document.body.removeChild(textArea);
-                    showToast("Task copied to clipboard!");
-                } catch (err) {
-                    console.error('Failed to copy task: ', err);
-                    showToast("Failed to copy task.");
                 }
+                showToast("Task copied to clipboard!");
+            } catch (err) {
+                console.error('Failed to copy task: ', err);
+                showToast("Failed to copy task.");
             }
+        }
 
-            // --- UI Rendering & Helpers ---
-            function renderTasks() {
-                todoTasksContainer.innerHTML = '';
-                reminderTasksContainer.innerHTML = '';
 
-                const activeTasks = tasks.filter(t => t.status !== 'deleted');
-
-                const todos = activeTasks
-                    .filter(t => t.category === 'todo')
-                    .sort((a,b) => (a.status === 'active' ? -1 : 1) - (b.status === 'active' ? -1 : 1) || new Date(b.createdAt) - new Date(a.createdAt));
-                
-                const reminders = activeTasks
-                    .filter(t => t.category === 'reminder')
-                    .sort((a,b) => (a.status === 'active' ? -1 : 1) - (b.status === 'active' ? -1 : 1) || new Date(b.createdAt) - new Date(a.createdAt));
-
-                if (todos.length === 0) {
-                    todoTasksContainer.innerHTML = `<p class="text-center text-gray-500 text-sm">No "To Do" tasks yet.</p>`;
-                } else {
-                    todos.forEach(task => todoTasksContainer.appendChild(createTaskCard(task)));
+        // --- UI Rendering & Helpers ---
+        function renderTasks() {
+            todoTasksContainer.innerHTML = '';
+            reminderTasksContainer.innerHTML = '';
+            const activeTasks = tasks.filter(t => t.status !== 'deleted');
+            
+            const sortedTasks = activeTasks.sort((a,b) => {
+                const statusA = a.status === 'active' ? 0 : 1;
+                const statusB = b.status === 'active' ? 0 : 1;
+                if (statusA !== statusB) {
+                    return statusA - statusB;
                 }
+                return new Date(b.createdAt) - new Date(a.createdAt);
+            });
 
-                if (reminders.length === 0) {
-                    reminderTasksContainer.innerHTML = `<p class="text-center text-gray-500 text-sm">No "Reminder" tasks yet.</p>`;
-                } else {
-                    reminders.forEach(task => reminderTasksContainer.appendChild(createTaskCard(task)));
+            const todos = sortedTasks.filter(t => t.category === 'todo');
+            const reminders = sortedTasks.filter(t => t.category === 'reminder');
+
+            if (todos.length === 0) todoTasksContainer.innerHTML = `<p class="text-center text-gray-500 text-sm">No "To Do" tasks yet.</p>`;
+            else todos.forEach(task => todoTasksContainer.appendChild(createTaskCard(task)));
+
+            if (reminders.length === 0) reminderTasksContainer.innerHTML = `<p class="text-center text-gray-500 text-sm">No "Reminder" tasks yet.</p>`;
+            else reminders.forEach(task => reminderTasksContainer.appendChild(createTaskCard(task)));
+        }
+
+        function createTaskCard(task) {
+            const card = document.createElement('div');
+            card.dataset.taskId = task.id;
+            card.className = 'task-card bg-white rounded-lg shadow-sm overflow-hidden';
+            
+            const style = { border: 'border-l-blue-500' };
+            card.classList.add(style.border);
+
+            if (task.status === 'completed') card.classList.add('task-completed');
+            else if (task.status === 'cancelled') card.classList.add('task-cancelled');
+
+            const createdAt = new Date(task.createdAt).toLocaleString();
+            const completedAt = task.completedAt ? new Date(task.completedAt).toLocaleString() : '';
+            const cancelledAt = task.cancelledAt ? new Date(task.cancelledAt).toLocaleString() : '';
+            
+            let statusText = '';
+            let actionButtonsHTML = '';
+            let deleteButtonHTML = `<button data-action="delete" data-id="${task.id}" class="text-gray-400 hover:text-red-600" title="Move to Trash"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg></button>`;
+
+            if (task.status === 'completed' || task.status === 'cancelled') {
+                 if (task.status === 'completed') statusText = `<p class="text-sm text-green-700 font-medium">Completed by ${task.completedBy} on ${completedAt}</p>`;
+                 else {
+                    const byWhom = task.cancelledBy ? ` by ${task.cancelledBy}` : '';
+                    statusText = `<p class="text-sm text-red-700 font-medium">Cancelled${byWhom} on ${cancelledAt}</p>`;
                 }
+                actionButtonsHTML = `<button data-action="share" data-id="${task.id}" class="text-gray-400 hover:text-green-600" title="Share Task"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a.5.5 0 1 0 0 1 .5.5 0 0 0 0-1m-5 4a.5.5 0 1 0 0 1 .5.5 0 0 0 0-1"/></svg></button>
+                                     <button data-action="undo" data-id="${task.id}" class="text-gray-400 hover:text-blue-600" title="Undo"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/><path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/></svg></button>
+                                     ${deleteButtonHTML}`;
+            } else { // Active tasks
+                 actionButtonsHTML = `<button data-action="share" data-id="${task.id}" class="text-gray-400 hover:text-green-600" title="Share Task"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a.5.5 0 1 0 0 1 .5.5 0 0 0 0-1m-5 4a.5.5 0 1 0 0 1 .5.5 0 0 0 0-1"/></svg></button>
+                                      <button data-action="edit" data-id="${task.id}" class="text-gray-400 hover:text-indigo-600" title="Edit Task"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/></svg></button>
+                                      <button data-action="cancel" data-id="${task.id}" class="text-gray-400 hover:text-red-600" title="Cancel Task"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg></button>
+                                      ${deleteButtonHTML}`;
             }
+            
+            const isLongText = task.text.length > 150;
+            const taskTextClasses = isLongText ? 'task-text-truncated' : '';
 
-            function createTaskCard(task) {
-                const card = document.createElement('div');
-                card.dataset.taskId = task.id;
-                card.className = 'task-card flex items-start gap-4 p-4 bg-white rounded-lg shadow-sm';
-                
-                const categoryStyles = {
-                    todo: { bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-l-blue-500' },
-                    reminder: { bg: 'bg-purple-100', text: 'text-purple-800', border: 'border-l-purple-500' }
-                };
-                const style = categoryStyles[task.category] || categoryStyles.todo;
-                card.classList.add(style.border);
-
-                if (task.status === 'completed') {
-                    card.classList.add('task-completed');
-                    card.classList.remove(style.border);
-                } else if (task.status === 'cancelled') {
-                    card.classList.add('task-cancelled');
-                    card.classList.remove(style.border);
-                }
-
-                const createdAt = new Date(task.createdAt).toLocaleString();
-                const completedAt = task.completedAt ? new Date(task.completedAt).toLocaleString() : '';
-                const cancelledAt = task.cancelledAt ? new Date(task.cancelledAt).toLocaleString() : '';
-                
-                let statusText = '';
-                let actionButtonsHTML = '';
-
-                let deleteButtonHTML = `
-                    <button data-action="delete" data-id="${task.id}" class="text-gray-400 hover:text-red-600" title="Move to Trash">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg>
-                    </button>`;
-
-                if (task.status === 'completed' || task.status === 'cancelled') {
-                     if (task.status === 'completed') {
-                        statusText = `<p class="text-green-700 font-medium">Completed by ${task.completedBy} on ${completedAt}</p>`;
-                    } else {
-                        const byWhom = task.cancelledBy ? ` by ${task.cancelledBy}` : '';
-                        statusText = `<p class="text-red-700 font-medium">Cancelled${byWhom} on ${cancelledAt}</p>`;
-                    }
-                    actionButtonsHTML = `
-                         <button data-action="share" data-id="${task.id}" class="text-gray-400 hover:text-green-600" title="Share Task">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a.5.5 0 1 0 0 1 .5.5 0 0 0 0-1m-5 4a.5.5 0 1 0 0 1 .5.5 0 0 0 0-1"/></svg>
-                        </button>
-                        <button data-action="undo" data-id="${task.id}" class="text-gray-400 hover:text-blue-600" title="Undo">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
-                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
-                            </svg>
-                        </button>
-                        ${deleteButtonHTML}`;
-                } else { // Active tasks
-                     actionButtonsHTML = `
-                        <button data-action="share" data-id="${task.id}" class="text-gray-400 hover:text-green-600" title="Share Task">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a.5.5 0 1 0 0 1 .5.5 0 0 0 0-1m-5 4a.5.5 0 1 0 0 1 .5.5 0 0 0 0-1"/></svg>
-                        </button>
-                        <button data-action="edit" data-id="${task.id}" class="text-gray-400 hover:text-indigo-600" title="Edit Task">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/></svg>
-                        </button>
-                        <button data-action="cancel" data-id="${task.id}" class="text-gray-400 hover:text-red-600" title="Cancel Task">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
-                        </button>
-                        ${deleteButtonHTML}
-                     `;
-                }
-
-                card.innerHTML = `
+            card.innerHTML = `
+                <div class="p-4 flex items-start gap-4">
                     <input type="checkbox" data-task-id="${task.id}" class="custom-checkbox mt-1 flex-shrink-0" ${task.status !== 'active' ? 'checked' : ''} ${task.status !== 'active' ? 'disabled' : ''}>
                     <div class="flex-grow">
-                        <div class="flex justify-between items-start">
-                            <p class="task-text font-medium text-gray-800 pr-4 whitespace-pre-wrap">${task.text}</p>
-                        </div>
-                        <div class="text-sm text-gray-500 mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
-                            <span>Assigned by: <strong>${task.assignedBy}</strong></span>
-                            ${task.taskType ? `<span>Type: <strong>${task.taskType}</strong></span>` : ''}
-                            ${task.link ? `<span><a href="${task.link}" target="_blank" class="text-indigo-600 hover:underline">Visit Link</a></span>` : ''}
-                        </div>
-                        <div class="text-xs text-gray-400 mt-2 space-y-1">
-                            <p>Created: ${createdAt}</p>
-                            ${statusText}
-                        </div>
+                        <p class="task-text font-medium text-gray-800 pr-4 whitespace-pre-wrap ${taskTextClasses}">${task.text}</p>
+                        ${isLongText ? `<button data-action="expand" class="text-indigo-600 text-sm font-semibold mt-2">Show more</button>` : ''}
                     </div>
                     <div class="flex-shrink-0 flex flex-col items-center justify-start gap-2" id="card-actions-${task.id}">
                         ${actionButtonsHTML}
                     </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 border-t border-gray-200">
+                    <div class="text-sm text-gray-500 flex flex-wrap items-center gap-x-4 gap-y-1">
+                        <span>Assigned by: <strong>${task.assignedBy}</strong></span>
+                        ${task.taskType ? `<span>Type: <strong>${task.taskType}</strong></span>` : ''}
+                        ${task.link ? `<span><a href="${task.link}" target="_blank" class="text-indigo-600 hover:underline">Visit Link</a></span>` : ''}
+                    </div>
+                    <div class="text-xs text-gray-400 mt-2 space-y-1">
+                        <p>Created: ${createdAt}</p>
+                        ${statusText}
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        // --- Modal Logic ---
+        function openEditModal(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (!task) return;
+
+            const assignedBySelect = document.getElementById('editAssignedBy');
+            const taskTypeSelect = document.getElementById('editTaskType');
+            const otherAssignedByInput = document.getElementById('editOtherAssignedBy');
+            const otherTaskTypeInput = document.getElementById('editOtherTaskType');
+
+            document.getElementById('editTaskId').value = taskId;
+            document.getElementById('editTaskText').value = task.text;
+            document.getElementById('editTaskCategory').value = task.category;
+            document.getElementById('editTaskLink').value = task.link;
+
+            // Handle "Assigned By"
+            const assignedByOptionExists = [...assignedBySelect.options].some(opt => opt.value === task.assignedBy);
+            if(assignedByOptionExists) {
+                assignedBySelect.value = task.assignedBy;
+                otherAssignedByInput.classList.add('hidden');
+            } else {
+                assignedBySelect.value = 'Other';
+                otherAssignedByInput.value = task.assignedBy;
+                otherAssignedByInput.classList.remove('hidden');
+            }
+            
+            // Handle "Task Type"
+            const taskTypeOptionExists = [...taskTypeSelect.options].some(opt => opt.value === task.taskType);
+             if(taskTypeOptionExists) {
+                taskTypeSelect.value = task.taskType;
+                otherTaskTypeInput.classList.add('hidden');
+            } else {
+                taskTypeSelect.value = 'Other';
+                otherTaskTypeInput.value = task.taskType;
+                otherTaskTypeInput.classList.remove('hidden');
+            }
+
+            editModal.classList.remove('hidden');
+            setTimeout(() => editModal.classList.add('show'), 10);
+        }
+
+        function closeEditModal() {
+            editModal.classList.remove('show');
+            setTimeout(() => editModal.classList.add('hidden'), 300);
+        }
+
+        function openCompletionModal(taskId) {
+            taskToCompleteId = taskId;
+            completionModal.classList.remove('hidden');
+            setTimeout(() => completionModal.classList.add('show'), 10);
+        }
+
+        function closeCompletionModal() {
+            completionModal.classList.remove('show');
+            setTimeout(() => {
+                completionModal.classList.add('hidden');
+                if(taskToCompleteId) {
+                    const checkbox = document.querySelector(`input[data-task-id="${taskToCompleteId}"]`);
+                    if (checkbox && checkbox.checked) {
+                         const task = tasks.find(t => t.id === taskToCompleteId);
+                         if (task && task.status !== 'completed') {
+                             checkbox.checked = false;
+                         }
+                    }
+                }
+                taskToCompleteId = null;
+            }, 300);
+        }
+
+        function openCancellationModal(taskId) {
+            taskToCancelId = taskId;
+            cancellationModal.classList.remove('hidden');
+            setTimeout(() => cancellationModal.classList.add('show'), 10);
+        }
+
+        function closeCancellationModal() {
+            cancellationModal.classList.remove('show');
+            setTimeout(() => {
+                cancellationModal.classList.add('hidden');
+                taskToCancelId = null;
+            }, 300);
+        }
+
+        function openDeleteModal(taskId, isPermanent = false) {
+            taskToDeleteId = taskId;
+            if (isPermanent) {
+                deleteModalTitle.textContent = "Delete Forever?";
+                deleteModalText.textContent = "This action cannot be undone.";
+                confirmDeleteBtn.textContent = "Delete Forever";
+            } else {
+                deleteModalTitle.textContent = "Move to Trash?";
+                deleteModalText.textContent = "You can restore this task from the trash bin.";
+                confirmDeleteBtn.textContent = "Move to Trash";
+            }
+            deleteConfirmationModal.classList.remove('hidden');
+            setTimeout(() => deleteConfirmationModal.classList.add('show'), 10);
+        }
+
+        function closeDeleteModal() {
+            deleteConfirmationModal.classList.remove('show');
+            setTimeout(() => {
+                deleteConfirmationModal.classList.add('hidden');
+                taskToDeleteId = null;
+            }, 300);
+        }
+
+        function renderTrashTasks() {
+            trashList.innerHTML = '';
+            const deletedTasks = tasks.filter(t => t.status === 'deleted');
+            if (deletedTasks.length === 0) {
+                trashList.innerHTML = '<p class="text-center text-gray-500">Trash is empty.</p>';
+                return;
+            }
+            deletedTasks.forEach(task => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-lg';
+                item.innerHTML = `
+                    <div>
+                        <p class="text-gray-700">${task.text}</p>
+                        <p class="text-xs text-gray-400">Deleted on ${new Date().toLocaleDateString()}</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button data-action="restore-from-trash" data-id="${task.id}" class="text-gray-400 hover:text-blue-600" title="Restore Task">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/><path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/></svg>
+                        </button>
+                        <button data-action="delete-forever" data-id="${task.id}" class="text-gray-400 hover:text-red-600" title="Delete Forever">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg>
+                        </button>
+                    </div>
                 `;
-                return card;
-            }
+                trashList.appendChild(item);
+            });
+        }
 
-            // --- Modal Logic ---
-            function openEditModal(taskId) {
-                const task = tasks.find(t => t.id === taskId);
-                if (!task) return;
-                editTaskForm.editTaskId.value = taskId;
-                editTaskForm.editTaskText.value = task.text;
-                editTaskForm.editAssignedBy.value = task.assignedBy;
-                editTaskForm.editTaskCategory.value = task.category;
-                editTaskForm.editTaskType.value = task.taskType || 'General Task';
-                editTaskForm.editTaskLink.value = task.link;
-                editModal.classList.remove('hidden');
-                setTimeout(() => editModal.classList.add('show'), 10);
-            }
+        function openTrashModal() {
+            renderTrashTasks();
+            trashModal.classList.remove('hidden');
+            setTimeout(() => trashModal.classList.add('show'), 10);
+        }
 
-            function closeEditModal() {
-                editModal.classList.remove('show');
-                setTimeout(() => editModal.classList.add('hidden'), 300);
-            }
-
-            function openCompletionModal(taskId) {
-                taskToCompleteId = taskId;
-                completionModal.classList.remove('hidden');
-                setTimeout(() => completionModal.classList.add('show'), 10);
-            }
-
-            function closeCompletionModal() {
-                completionModal.classList.remove('show');
-                setTimeout(() => {
-                    completionModal.classList.add('hidden');
-                    if(taskToCompleteId) {
-                        const checkbox = document.querySelector(`input[data-task-id="${taskToCompleteId}"]`);
-                        if (checkbox && checkbox.checked) {
-                             const task = tasks.find(t => t.id === taskToCompleteId);
-                             if (task && task.status !== 'completed') {
-                                checkbox.checked = false;
-                             }
-                        }
-                    }
-                    taskToCompleteId = null;
-                }, 300);
-            }
-
-            function openCancellationModal(taskId) {
-                taskToCancelId = taskId;
-                cancellationModal.classList.remove('hidden');
-                setTimeout(() => cancellationModal.classList.add('show'), 10);
-            }
-
-            function closeCancellationModal() {
-                cancellationModal.classList.remove('show');
-                setTimeout(() => {
-                    cancellationModal.classList.add('hidden');
-                    taskToCancelId = null;
-                }, 300);
-            }
-
-            function openDeleteModal(taskId, isPermanent = false) {
-                taskToDeleteId = taskId;
-                if (isPermanent) {
-                    deleteModalTitle.textContent = "Delete Forever?";
-                    deleteModalText.textContent = "This action cannot be undone.";
-                    confirmDeleteBtn.textContent = "Delete Forever";
-                } else {
-                    deleteModalTitle.textContent = "Move to Trash?";
-                    deleteModalText.textContent = "You can restore this task from the trash bin.";
-                    confirmDeleteBtn.textContent = "Move to Trash";
-                }
-                deleteConfirmationModal.classList.remove('hidden');
-                setTimeout(() => deleteConfirmationModal.classList.add('show'), 10);
-            }
-
-            function closeDeleteModal() {
-                deleteConfirmationModal.classList.remove('show');
-                setTimeout(() => {
-                    deleteConfirmationModal.classList.add('hidden');
-                    taskToDeleteId = null;
-                }, 300);
-            }
-
-            function renderTrashTasks() {
-                trashList.innerHTML = '';
-                const deletedTasks = tasks.filter(t => t.status === 'deleted');
-                if (deletedTasks.length === 0) {
-                    trashList.innerHTML = '<p class="text-center text-gray-500">Trash is empty.</p>';
-                    return;
-                }
-                deletedTasks.forEach(task => {
-                    const item = document.createElement('div');
-                    item.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-lg';
-                    item.innerHTML = `
-                        <div>
-                            <p class="text-gray-700">${task.text}</p>
-                            <p class="text-xs text-gray-400">Deleted on ${new Date().toLocaleDateString()}</p>
-                        </div>
-                        <div class="flex gap-2">
-                            <button data-action="restore-from-trash" data-id="${task.id}" class="text-gray-400 hover:text-blue-600" title="Restore Task">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/><path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/></svg>
-                            </button>
-                            <button data-action="delete-forever" data-id="${task.id}" class="text-gray-400 hover:text-red-600" title="Delete Forever">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg>
-                            </button>
-                        </div>
-                    `;
-                    trashList.appendChild(item);
-                });
-            }
-
-            function openTrashModal() {
-                renderTrashTasks();
-                trashModal.classList.remove('hidden');
-                setTimeout(() => trashModal.classList.add('show'), 10);
-            }
-
-            function closeTrashModal() {
-                trashModal.classList.remove('show');
-                setTimeout(() => trashModal.classList.add('hidden'), 300);
-            }
+        function closeTrashModal() {
+            trashModal.classList.remove('show');
+            setTimeout(() => trashModal.classList.add('hidden'), 300);
+        }
+        
+        function showToast(message, undoCallback = null) {
+            clearTimeout(toastTimeout);
+            toastMessage.textContent = message;
             
-            // --- Toast & Undo Logic ---
-            function showToast(message, undoCallback = null) {
-                clearTimeout(toastTimeout);
-                toastMessage.textContent = message;
-                
-                const undoHandler = () => {
-                    if(undoCallback) undoCallback();
-                    toast.classList.remove('show');
-                }
-
-                if (undoCallback) {
-                    toastUndoBtn.style.display = 'block';
-                    toastUndoBtn.addEventListener('click', undoHandler, { once: true });
-                } else {
-                    toastUndoBtn.style.display = 'none';
-                }
-
-                toast.classList.add('show');
-
-                toastTimeout = setTimeout(() => {
-                    toast.classList.remove('show');
-                    if (undoCallback) {
-                        toastUndoBtn.removeEventListener('click', undoHandler);
-                    }
-                }, 5000);
-            }
-
-            function formatDateHeader(dateString) {
-                const today = new Date();
-                const yesterday = new Date(today);
-                yesterday.setDate(yesterday.getDate() - 1);
-                const taskDate = new Date(dateString);
-                taskDate.setMinutes(taskDate.getMinutes() + taskDate.getTimezoneOffset());
-                if (today.toLocaleDateString('en-CA') === taskDate.toLocaleDateString('en-CA')) return 'Today';
-                if (yesterday.toLocaleDateString('en-CA') === taskDate.toLocaleDateString('en-CA')) return 'Yesterday';
-                return taskDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            }
-
-            function triggerConfetti() {
-                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-            }
-
-            // --- Event Listeners ---
-            newTaskForm.addEventListener('submit', handleAddTask);
-            editTaskForm.addEventListener('submit', handleUpdateTask);
-            cancelEditBtn.addEventListener('click', closeEditModal);
+            const newUndoBtn = toastUndoBtn.cloneNode(true);
+            toastUndoBtn.parentNode.replaceChild(newUndoBtn, toastUndoBtn);
             
-            taskBoard.addEventListener('change', (e) => {
-                if (e.target.matches('.custom-checkbox')) {
-                    const taskId = e.target.dataset.taskId;
-                    if (e.target.checked) {
-                        openCompletionModal(taskId);
-                    }
-                }
-            });
+            const undoHandler = () => {
+                if(undoCallback) undoCallback();
+                toast.classList.remove('show');
+            }
 
-            taskBoard.addEventListener('click', (e) => {
-                const button = e.target.closest('button[data-action]');
-                if (!button) return;
+            if (undoCallback) {
+                newUndoBtn.style.display = 'block';
+                newUndoBtn.addEventListener('click', undoHandler, { once: true });
+            } else {
+                newUndoBtn.style.display = 'none';
+            }
 
-                const action = button.dataset.action;
-                const id = button.dataset.id;
-                
-                if (action === 'edit') {
-                    openEditModal(id);
-                } else if (action === 'cancel') {
-                    openCancellationModal(id);
-                } else if (action === 'undo') {
-                    handleUndoState(id);
-                } else if (action === 'share') {
-                    handleShareTask(id);
-                } else if (action === 'delete') {
-                    openDeleteModal(id, false);
-                }
-            });
+            toast.classList.add('show');
 
-            document.querySelectorAll('.completion-user-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    confirmCompletion(e.target.dataset.name);
-                });
-            });
-            cancelCompletionBtn.addEventListener('click', closeCompletionModal);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 5000);
+        }
 
-            document.querySelectorAll('.cancellation-user-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    confirmCancellation(e.target.dataset.name);
-                });
-            });
-            cancelCancellationBtn.addEventListener('click', closeCancellationModal);
+        function triggerConfetti() {
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        }
 
-            confirmDeleteBtn.addEventListener('click', () => {
-                if (taskToDeleteId) {
-                    if (confirmDeleteBtn.textContent === 'Delete Forever') {
-                        handleDeleteTask(taskToDeleteId);
-                    } else {
-                        moveToTrash(taskToDeleteId);
-                    }
-                    closeDeleteModal();
-                }
-            });
-            cancelDeleteBtn.addEventListener('click', closeDeleteModal);
-            
-            openTrashBtn.addEventListener('click', openTrashModal);
-            closeTrashBtn.addEventListener('click', closeTrashModal);
-
-            trashList.addEventListener('click', (e) => {
-                const button = e.target.closest('button[data-action]');
-                if (!button) return;
-
-                const action = button.dataset.action;
-                const id = button.dataset.id;
-
-                if (action === 'restore-from-trash') {
-                    handleUndoState(id);
-                    renderTrashTasks();
-                } else if (action === 'delete-forever') {
-                    openDeleteModal(id, true);
-                }
-            });
-
-            // --- App Start ---
-            renderTasks();
+        // --- Event Listeners ---
+        document.getElementById('assignedBy').addEventListener('change', (e) => {
+            document.getElementById('otherAssignedBy').classList.toggle('hidden', e.target.value !== 'Other');
         });
+        document.getElementById('taskType').addEventListener('change', (e) => {
+            document.getElementById('otherTaskType').classList.toggle('hidden', e.target.value !== 'Other');
+        });
+        document.getElementById('editAssignedBy').addEventListener('change', (e) => {
+            document.getElementById('editOtherAssignedBy').classList.toggle('hidden', e.target.value !== 'Other');
+        });
+        document.getElementById('editTaskType').addEventListener('change', (e) => {
+            document.getElementById('editOtherTaskType').classList.toggle('hidden', e.target.value !== 'Other');
+        });
+
+        newTaskForm.addEventListener('submit', handleAddTask);
+        editTaskForm.addEventListener('submit', handleUpdateTask);
+        cancelEditBtn.addEventListener('click', closeEditModal);
+        
+        taskBoard.addEventListener('change', (e) => {
+            if (e.target.matches('.custom-checkbox')) {
+                const taskId = e.target.dataset.taskId;
+                if (e.target.checked) {
+                    openCompletionModal(taskId);
+                }
+            }
+        });
+
+        taskBoard.addEventListener('click', (e) => {
+            const button = e.target.closest('button[data-action]');
+            if (!button) return;
+
+            const action = button.dataset.action;
+            const id = button.dataset.id;
+            
+            if (action === 'edit') openEditModal(id);
+            else if (action === 'cancel') openCancellationModal(id);
+            else if (action === 'undo') handleUndoState(id);
+            else if (action === 'share') handleShareTask(id);
+            else if (action === 'delete') openDeleteModal(id, false);
+            else if (action === 'expand') {
+                const card = button.closest('.task-card');
+                const textElement = card.querySelector('.task-text');
+                textElement.classList.toggle('task-text-truncated');
+                button.textContent = textElement.classList.contains('task-text-truncated') ? 'Show more' : 'Show less';
+            }
+        });
+
+        document.querySelectorAll('.completion-user-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => confirmCompletion(e.target.dataset.name));
+        });
+        cancelCompletionBtn.addEventListener('click', closeCompletionModal);
+
+        document.querySelectorAll('.cancellation-user-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => confirmCancellation(e.target.dataset.name));
+        });
+        cancelCancellationBtn.addEventListener('click', closeCancellationModal);
+
+        confirmDeleteBtn.addEventListener('click', () => {
+            if (taskToDeleteId) {
+                if (confirmDeleteBtn.textContent === 'Delete Forever') {
+                    handleDeleteTask(taskToDeleteId);
+                } else {
+                    moveToTrash(taskToDeleteId);
+                }
+                closeDeleteModal();
+            }
+        });
+        cancelDeleteBtn.addEventListener('click', closeDeleteModal);
+        
+        openTrashBtn.addEventListener('click', openTrashModal);
+        closeTrashBtn.addEventListener('click', closeTrashModal);
+
+        trashList.addEventListener('click', (e) => {
+            const button = e.target.closest('button[data-action]');
+            if (!button) return;
+
+            const action = button.dataset.action;
+            const id = button.dataset.id;
+
+            if (action === 'restore-from-trash') {
+                handleUndoState(id);
+                renderTrashTasks();
+            } else if (action === 'delete-forever') {
+                openDeleteModal(id, true);
+            }
+        });
+
+        // --- App Start ---
+        initializeFirebase();
     </script>
 </body>
 </html>
