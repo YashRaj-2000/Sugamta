@@ -121,7 +121,7 @@
     <div id="app-container" class="max-w-7xl mx-auto relative">
         <header class="mb-8 text-center">
             <h1 class="app-title text-5xl font-bold text-gray-800">Sugamta App</h1>
-            <p class="text-gray-500 mt-2">By Dream town studios</p>
+            <p class="text-gray-500 mt-2">सुगमता app Dream town studios</p>
             <p class="text-gray-500 mt-2 text-sm italic">
                 "सुगमता: कार्यसिद्धये सरलता"<br>
                 Sugamta: Simplicity for task fulfillment
@@ -316,21 +316,11 @@
                 firebaseConfig = JSON.parse(__firebase_config);
                 console.log("Using environment-provided Firebase config.");
             } else {
-                // Fallback to user-provided config if environment one is not available
-                console.warn("Using user-provided fallback Firebase config.");
-                firebaseConfig = {
-                    apiKey: "AIzaSyD7czgJAuUxNTdhrqM6szerxuwTcpRzSxI",
-                    authDomain: "sugamta-app.firebaseapp.com",
-                    projectId: "sugamta-app",
-                    storageBucket: "sugamta-app.appspot.com",
-                    messagingSenderId: "484121692117",
-                    appId: "1:484121692117:web:ed050ab2fad28892625f5c",
-                    measurementId: "G-062C2XRC9T"
-                };
+                 throw new Error("Environment Firebase config not found or is empty.");
             }
         } catch (e) {
-            console.error("Could not parse Firebase config:", e);
-            document.getElementById('task-board').innerHTML = `<p class="text-center text-red-500 md:col-span-2">Error: Firebase configuration is missing or invalid.</p>`;
+            console.error("Firebase config error:", e);
+            document.getElementById('task-board').innerHTML = `<p class="text-center text-red-500 md:col-span-2">Error: Firebase configuration is missing or invalid. Cannot connect to the database.</p>`;
         }
         
         // --- DOM Elements ---
@@ -367,13 +357,11 @@
         let taskToCompleteId = null;
         let taskToCancelId = null;
         let taskToDeleteId = null;
-        let userId = null;
 
         // --- Firebase Initialization ---
         async function initializeFirebase() {
             if (!firebaseConfig || !firebaseConfig.apiKey) {
-                 taskBoard.innerHTML = `<p class="text-center text-red-500 md:col-span-2">Error: Firebase configuration is missing or invalid.</p>`;
-                return;
+                return; // Stop if config is not valid
             }
             try {
                 const appId = typeof __app_id !== 'undefined' ? __app_id : 'sugamta-app-default';
@@ -382,12 +370,12 @@
                 db = getFirestore(app);
                 setLogLevel('debug');
 
+                // Correct public collection path with an odd number of segments
+                tasksCollectionRef = collection(db, `artifacts/${appId}/public/data/tasks`);
+
                 onAuthStateChanged(auth, (user) => {
                     if (user) {
                         console.log("User is signed in:", user.uid);
-                        userId = user.uid;
-                        tasksCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/tasks`);
-                        listenForTasks();
                     } else {
                         if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                             signInWithCustomToken(auth, __initial_auth_token).catch(error => {
@@ -397,11 +385,13 @@
                         } else {
                              signInAnonymously(auth).catch((error) => {
                                 console.error("Anonymous sign-in failed:", error);
-                                taskBoard.innerHTML = `<p class="text-center text-red-500 md:col-span-2">Authentication failed. Please check your Firebase project settings.</p>`;
                             });
                         }
                     }
                 });
+                
+                // Start listening for tasks immediately
+                listenForTasks();
 
             } catch (error) {
                 console.error("Firebase initialization failed:", error);
