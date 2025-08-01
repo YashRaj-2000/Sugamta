@@ -121,7 +121,7 @@
     <div id="app-container" class="max-w-7xl mx-auto relative">
         <header class="mb-8 text-center">
             <h1 class="app-title text-5xl font-bold text-gray-800">Sugamta App</h1>
-            <p class="text-gray-500 mt-2">सुगमता app Dream town studios</p>
+            <p class="text-gray-500 mt-2">By Dream town studios</p>
             <p class="text-gray-500 mt-2 text-sm italic">
                 "सुगमता: कार्यसिद्धये सरलता"<br>
                 Sugamta: Simplicity for task fulfillment
@@ -310,18 +310,16 @@
         import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, query, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- App Configuration ---
-        let firebaseConfig;
-        try {
-            if (typeof __firebase_config !== 'undefined' && __firebase_config && __firebase_config.trim() !== '{}' && __firebase_config.trim() !== '') {
-                firebaseConfig = JSON.parse(__firebase_config);
-                console.log("Using environment-provided Firebase config.");
-            } else {
-                 throw new Error("Environment Firebase config not found or is empty.");
-            }
-        } catch (e) {
-            console.error("Firebase config error:", e);
-            document.getElementById('task-board').innerHTML = `<p class="text-center text-red-500 md:col-span-2">Error: Firebase configuration is missing or invalid. Cannot connect to the database.</p>`;
-        }
+        // This configuration will be used for your hosted site.
+        const firebaseConfig = {
+            apiKey: "AIzaSyD7czgJAuUxNTdhrqM6szerxuwTcpRzSxI",
+            authDomain: "sugamta-app.firebaseapp.com",
+            projectId: "sugamta-app",
+            storageBucket: "sugamta-app.appspot.com",
+            messagingSenderId: "484121692117",
+            appId: "1:484121692117:web:ed050ab2fad28892625f5c",
+            measurementId: "G-062C2XRC9T"
+        };
         
         // --- DOM Elements ---
         const newTaskForm = document.getElementById('newTaskForm');
@@ -361,36 +359,28 @@
         // --- Firebase Initialization ---
         async function initializeFirebase() {
             if (!firebaseConfig || !firebaseConfig.apiKey) {
-                return; // Stop if config is not valid
+                 taskBoard.innerHTML = `<p class="text-center text-red-500 md:col-span-2">Error: Firebase configuration is missing or invalid.</p>`;
+                return;
             }
             try {
-                const appId = typeof __app_id !== 'undefined' ? __app_id : 'sugamta-app-default';
                 const app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
                 db = getFirestore(app);
                 setLogLevel('debug');
 
-                // Correct public collection path with an odd number of segments
-                tasksCollectionRef = collection(db, `artifacts/${appId}/public/data/tasks`);
+                // Use a single, public path for all tasks to ensure syncing
+                tasksCollectionRef = collection(db, "sugamta-public-tasks");
 
                 onAuthStateChanged(auth, (user) => {
                     if (user) {
                         console.log("User is signed in:", user.uid);
                     } else {
-                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                            signInWithCustomToken(auth, __initial_auth_token).catch(error => {
-                                console.error("Custom token sign-in failed, trying anonymous.", error);
-                                signInAnonymously(auth).catch(err => console.error("Anonymous sign-in also failed:", err));
-                            });
-                        } else {
-                             signInAnonymously(auth).catch((error) => {
-                                console.error("Anonymous sign-in failed:", error);
-                            });
-                        }
+                         signInAnonymously(auth).catch((error) => {
+                            console.error("Anonymous sign-in failed:", error);
+                        });
                     }
                 });
                 
-                // Start listening for tasks immediately
                 listenForTasks();
 
             } catch (error) {
