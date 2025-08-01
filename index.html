@@ -124,7 +124,7 @@
             <p class="text-gray-500 mt-2">By Dream town studios</p>
             <p class="text-gray-500 mt-2 text-sm italic">
                 "सुगमता: कार्यसिद्धये सरलता"<br>
-                Simplicity for task fulfillment
+                Sugamta: Simplicity for task fulfillment
             </p>
         </header>
 
@@ -316,19 +316,21 @@
                 firebaseConfig = JSON.parse(__firebase_config);
                 console.log("Using environment-provided Firebase config.");
             } else {
-                throw new Error("Environment Firebase config not found or is empty.");
+                // Fallback to user-provided config if environment one is not available
+                console.warn("Using user-provided fallback Firebase config.");
+                firebaseConfig = {
+                    apiKey: "AIzaSyD7czgJAuUxNTdhrqM6szerxuwTcpRzSxI",
+                    authDomain: "sugamta-app.firebaseapp.com",
+                    projectId: "sugamta-app",
+                    storageBucket: "sugamta-app.appspot.com",
+                    messagingSenderId: "484121692117",
+                    appId: "1:484121692117:web:ed050ab2fad28892625f5c",
+                    measurementId: "G-062C2XRC9T"
+                };
             }
         } catch (e) {
-            console.warn("Could not parse or find environment Firebase config, using user-provided fallback:", e);
-            firebaseConfig = {
-                apiKey: "AIzaSyD7czgJAuUxNTdhrqM6szerxuwTcpRzSxI",
-                authDomain: "sugamta-app.firebaseapp.com",
-                projectId: "sugamta-app",
-                storageBucket: "sugamta-app.appspot.com",
-                messagingSenderId: "484121692117",
-                appId: "1:484121692117:web:ed050ab2fad28892625f5c",
-                measurementId: "G-062C2XRC9T"
-            };
+            console.error("Could not parse Firebase config:", e);
+            document.getElementById('task-board').innerHTML = `<p class="text-center text-red-500 md:col-span-2">Error: Firebase configuration is missing or invalid.</p>`;
         }
         
         // --- DOM Elements ---
