@@ -310,8 +310,26 @@
         import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, query, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- App Configuration ---
-        const firebaseConfigString = typeof __firebase_config !== 'undefined' ? __firebase_config : '{}';
-        const firebaseConfig = JSON.parse(firebaseConfigString);
+        let firebaseConfig;
+        try {
+            if (typeof __firebase_config !== 'undefined' && __firebase_config && __firebase_config.trim() !== '{}' && __firebase_config.trim() !== '') {
+                firebaseConfig = JSON.parse(__firebase_config);
+                console.log("Using environment-provided Firebase config.");
+            } else {
+                throw new Error("Environment Firebase config not found or is empty.");
+            }
+        } catch (e) {
+            console.warn("Could not parse or find environment Firebase config, using user-provided fallback:", e);
+            firebaseConfig = {
+                apiKey: "AIzaSyD7czgJAuUxNTdhrqM6szerxuwTcpRzSxI",
+                authDomain: "sugamta-app.firebaseapp.com",
+                projectId: "sugamta-app",
+                storageBucket: "sugamta-app.appspot.com",
+                messagingSenderId: "484121692117",
+                appId: "1:484121692117:web:ed050ab2fad28892625f5c",
+                measurementId: "G-062C2XRC9T"
+            };
+        }
         
         // --- DOM Elements ---
         const newTaskForm = document.getElementById('newTaskForm');
@@ -351,10 +369,11 @@
 
         // --- Firebase Initialization ---
         async function initializeFirebase() {
+            if (!firebaseConfig || !firebaseConfig.apiKey) {
+                 taskBoard.innerHTML = `<p class="text-center text-red-500 md:col-span-2">Error: Firebase configuration is missing or invalid.</p>`;
+                return;
+            }
             try {
-                if (!firebaseConfig.apiKey) {
-                    throw new Error("Firebase configuration is missing or invalid.");
-                }
                 const appId = typeof __app_id !== 'undefined' ? __app_id : 'sugamta-app-default';
                 const app = initializeApp(firebaseConfig);
                 auth = getAuth(app);
@@ -408,7 +427,6 @@
             addTaskBtn.disabled = true;
             addTaskBtn.textContent = 'Saving...';
 
-            // More robustly get form values by ID
             const text = document.getElementById('taskText').value;
             const assignedBySelect = document.getElementById('assignedBy');
             const otherAssignedByInput = document.getElementById('otherAssignedBy');
